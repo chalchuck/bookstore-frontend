@@ -3,6 +3,8 @@
     <form class="form-signin" @submit.prevent="login">
       <h2 class="form-signin-heading">Please Sign in</h2>
 
+      <div class="alert alert-danger" v-if="error">{{ error }}</div>
+
       <label for="inputEmail" class="sr-only">Email Address</label>
       <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="tomhardy@venom.marvel" required autofocus>
 
@@ -20,13 +22,32 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      error: false
     };
   },
   methods: {
     login() {
-      console.log(this.email);
-      console.log(this.password);
+      this.$http
+        .post("/auth", { user: this.email, password: this.password })
+        .then(request => this.loginSuccessful(request))
+        .catch(() => this.loginFailed());
+    },
+
+    loginSuccessful(req) {
+      if (!req.data.token) {
+        this.loginFailed();
+        return;
+      }
+
+      localStorage.token = req.data.token;
+      this.error = false;
+
+      this.$router.replace(this.$route.query.redirect || "/authors");
+    },
+    loginFailed() {
+      this.error = "Login Failed";
+      delete localStorage.token;
     }
   }
 };
@@ -48,6 +69,9 @@ body {
   max-width: 330px;
   padding: 10% 15px;
   margin: 0 auto;
+}
+.form-signin button {
+  cursor: pointer;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
