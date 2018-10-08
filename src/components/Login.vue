@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Login",
   data() {
@@ -25,6 +27,9 @@ export default {
       password: "",
       error: false
     };
+  },
+  computed: {
+    ...mapGetters({ currentUser: "currentUser" })
   },
   methods: {
     login() {
