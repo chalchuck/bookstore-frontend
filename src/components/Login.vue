@@ -48,6 +48,20 @@ export default {
     loginFailed() {
       this.error = "Login Failed";
       delete localStorage.token;
+    },
+
+    updated() {
+      if (!localStorage.token && this.$route.path !== "/") {
+        this.$router.push("/?redirect=" + this.$route.path);
+      }
+    },
+    created() {
+      this.checkCurrentSLogin();
+    },
+    checkCurrentSLogin() {
+      if (localStorage.token) {
+        this.$router.replace(this.$route.query.redirect || "/authors");
+      }
     }
   }
 };
