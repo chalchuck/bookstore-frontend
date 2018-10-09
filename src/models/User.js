@@ -1,4 +1,4 @@
-import JwtDecode from 'jwt-decode';
+import JwtDecode from "jwt-decode";
 
 export default class User {
   static from(token) {
