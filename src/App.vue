@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <div class="container">
+    <template v-if="currentUser">
+      <Navbar></Navbar>
+    </template>
+
+    <div class="container-fluid">
       <router-view></router-view>
+
+      <template v-if="currentUser">
+        <Foot></Foot>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import Navbar from "@/components/Navbar";
+import Foot from "@/components/Foot";
 
 export default {
   name: "App",
@@ -19,6 +29,10 @@ export default {
   },
   updated() {
     this.checkCurrentLogin();
+  },
+  components: {
+    Navbar,
+    Foot
   },
   methods: {
     checkCurrentLogin() {
