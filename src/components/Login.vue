@@ -1,22 +1,22 @@
 <template>
-  <div class="login-wrapper border border-light">
-    <form class="form-signin" @submit.prevent="login">
-      <h2 class="form-signin-heading">Please Sign in</h2>
-
-      <div class="alert alert-danger" v-if="error">{{ error }}</div>
-
-      <label for="inputEmail" class="sr-only">Email Address</label>
-      <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="tomhardy@venom.marvel" required autofocus>
-
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+  <div class="login-overlay">
+    <div class="login-wrapper border border-light">
+      <form class="form-signin" @submit.prevent="login">
+        <h2 class="form-signin-heading">Please Sign in</h2>
+        <div class="alert alert-danger" v-if="error">{{ error }}</div>
+        <label for="inputEmail" class="sr-only">Email Address</label>
+        <input v-model="email" type="email" id="inputEmail" class="form-control" placeholder="tomhardy@venom.marvel" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input v-model="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Login",
   data() {
@@ -26,7 +26,26 @@ export default {
       error: false
     };
   },
+
+  computed: {
+    ...mapGetters({ currentUser: "currentUser" })
+  },
+
+  created() {
+    this.checkCurrentLogin();
+  },
+
+  updated() {
+    this.checkCurrentLogin();
+  },
+
   methods: {
+    checkCurrentLogin() {
+      if (this.currentUser) {
+        this.$router.replace(this.$route.query.redirect || "/authors");
+      }
+    },
+
     login() {
       this.$http
         .post("/auth", { user: this.email, password: this.password })
@@ -40,52 +59,49 @@ export default {
         return;
       }
 
-      localStorage.token = req.data.token;
       this.error = false;
-
+      localStorage.token = req.data.token;
+      this.$store.dispatch("login");
       this.$router.replace(this.$route.query.redirect || "/authors");
     },
+
     loginFailed() {
       this.error = "Login Failed";
+      this.$store.dispatch("logout");
       delete localStorage.token;
-    },
-
-    updated() {
-      if (!localStorage.token && this.$route.path !== "/") {
-        this.$router.push("/?redirect=" + this.$route.path);
-      }
-    },
-    created() {
-      this.checkCurrentSLogin();
-    },
-    checkCurrentSLogin() {
-      if (localStorage.token) {
-        this.$router.replace(this.$route.query.redirect || "/authors");
-      }
     }
   }
 };
 </script>
 
 
-<style lang='css'>
-body {
-  background: #605b56;
+<style lang="css" scoped>
+.login-overlay {
+  background: #605b56 !important;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
-
 .login-wrapper {
   background: #fff;
   width: 70%;
   margin: 12% auto;
+  animation: fadein 0.6s;
 }
-
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .form-signin {
   max-width: 330px;
   padding: 10% 15px;
   margin: 0 auto;
-}
-.form-signin button {
-  cursor: pointer;
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -109,6 +125,9 @@ body {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+}
+.form-signin button {
+  cursor: pointer;
 }
 .form-signin input[type="password"] {
   margin-bottom: 10px;
