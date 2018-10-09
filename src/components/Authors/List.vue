@@ -7,7 +7,7 @@
       <h1>All Authors</h1>
     </div>
     <div class="row">
-      <Box v-for="author in authors" :key="author.id" :author="author" v-show="searchMath(author.name)">
+      <Box v-for="author in authors" :key="author.id" :author="author" v-show="searchMatch(author.name)">
       </Box>
     </div>
   </div>
@@ -38,7 +38,7 @@ export default {
     buildAuthorList(data) {
       this.authors = data;
     },
-    searchMath(authoName) {
+    searchMatch(authoName) {
       return authorName.toLowerCase().match(this.searchRegExp);
     }
   },
