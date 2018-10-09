@@ -1,7 +1,7 @@
 // global localStorage
 
 import User from '@/models/User';
-import * as MutationTypes from '@/store/mutation_types';
+import * as MutationTypes from './mutation_types';
 
 const state = {
   user: User.from(localStorage.token),
@@ -15,6 +15,13 @@ const mutations = {
   // eslint-disable-next-line
   [MutationTypes.LOGOUT](state) {
     state.user = null;
+  },
+};
+
+const getters = {
+  // eslint-disable-next-line
+  currentUser(state) {
+    return state.user;
   },
 };
 
@@ -33,16 +40,9 @@ const actions = {
 
 };
 
-const getters = {
-  // eslint-disable-next-line
-  currentUser(state) {
-    return state.user;
-  },
-};
-
 export default {
   state,
   mutations,
-  actions,
   getters,
+  actions,
 };
