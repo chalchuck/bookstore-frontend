@@ -1,0 +1,1 @@
+For me, a user story is something straight of an informal (or semi-formal) conversation with your client. When someone says “we’d like X to do Y”, that’s where a user story starts. It’s high level, not very precise and does not concern implementation.
