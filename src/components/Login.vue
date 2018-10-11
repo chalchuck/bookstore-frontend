@@ -1,5 +1,5 @@
 <template>
-  <div class="login-overlay">
+  <!-- <div class="login-overlay"> -->
     <div class="login-wrapper border border-light">
       <form class="form-signin" @submit.prevent="login">
         <h2 class="form-signin-heading">Please Sign in</h2>
@@ -11,7 +11,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
