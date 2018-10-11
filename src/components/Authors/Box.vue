@@ -37,10 +37,6 @@ export default {
     }
   }
 };
-
-components: {
-  Box;
-}
 </script>
 
 <style lang="scss" scoped>
