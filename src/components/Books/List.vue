@@ -2,7 +2,7 @@
   <div>
     <div class="page-header">
       <div class="float-right">
-        <input type="text" name="Search" v-model="search" placeholder="Search..." class="form-control">
+        <input type="text" name="search" v-model="search" placeholder="Search..." class="form-control">
       </div>
       <h1>Books by {{ author.name }}</h1>
     </div>
@@ -30,16 +30,20 @@ import Full from "./Full";
 
 export default {
   name: "List",
+  props: ["author"],
   data() {
     return {
-      author: null,
-      books: []
+      search: "",
+      books: [],
+      currentBook: null
     };
   },
   created() {
     this.$http
       .get(`/authors/${this.author.id}/books`)
-      .then(response => (this.books = request.data))
+      .then(request => {
+        this.books = request.data;
+      })
       .catch(() => {
         alert("Ooooooops! something Terrible happened here...");
       });

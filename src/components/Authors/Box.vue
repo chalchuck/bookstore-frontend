@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <div class="col author text-center">
-      <router-link :to="{ name: 'Author', params: {id: author.id} }">
-        <img :src="image">
-        <p>{{ author.name }}</p>
-      </router-link>
-    </div>
+  <div class="col author text-center">
+    <router-link :to="{ name: 'Author', params: {id: author.id} }">
+      <img :src="image">
+      <p>{{ author.name }}</p>
+    </router-link>
   </div>
 </template>
 

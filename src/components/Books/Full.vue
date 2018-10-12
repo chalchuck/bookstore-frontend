@@ -1,7 +1,7 @@
 <template>
   <div class="col book text-center">
     <button class="btn btn-light btn-close" v-on:click="close">&times; close</button>
-    <img :src="iamge">
+    <img :src="image">
     <p><strong>{{ book.title }}</strong> - {{ price }}</p>
     <button class="form-control btn btn-lg btn-primary">Add to cart</button>
   </div>
@@ -24,7 +24,7 @@ export default {
   updated() {
     this.pullImage();
   },
-  method: {
+  methods: {
     async pullImage() {
       this.image = `http://via.placeholder.com/220x320?text=${encodeURIComponent(
         this.book.title

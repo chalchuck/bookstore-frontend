@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-12 col0-md-3 border-right">
+    <div class="col-12 col-md-3 border-right">
       <Box :author="author" v-if="author"></Box>
     </div>
     <div class="col-md-12 col-md-9">
@@ -11,7 +11,7 @@
 
 <script>
 import Box from "./Box";
-import BookList from "@/components/Books/List";
+import List from "@/components/Books/List";
 
 export default {
   name: "Single",
@@ -23,8 +23,10 @@ export default {
 
   created() {
     this.$http
-      .fetch(`/authors/${this.$route.params.id}`)
-      .then(response => (this.author = response.data))
+      .get(`/authors/${this.$route.params.id}`)
+      .then(request => {
+        this.author = request.data;
+      })
       .catch(() => {
         alert("Something went wrong here!");
       });

@@ -6,10 +6,10 @@ import AuthorsList from "@/components/Authors/List";
 import SingleAuthor from "@/components/Authors/Single";
 
 Vue.use(Router);
-
 /* eslint-disable */
 export default new Router({
   mode: "history",
+
   routes: [{
       path: "/",
       name: "Login",
@@ -22,7 +22,7 @@ export default new Router({
     },
     {
       path: '/authors',
-      name: 'Author',
+      name: 'Authors',
       component: AuthorsList,
     },
     {
